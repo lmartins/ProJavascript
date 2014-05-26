@@ -26,7 +26,7 @@ var options = {
 
   JS: {
     src: ["src/JS/**/*.js"],
-    build: "build/js/*.js"
+    build: "build/js/"
   },
 
   COMPONENT: {
@@ -117,8 +117,14 @@ gulp.task("webpack:build-dev", function() {
 
 });
 
+// gulp.task('js', function () {
+//   gulp.src( options.JS.build )
+//     .pipe(connect.reload());
+// });
 gulp.task('js', function () {
-  gulp.src( options.JS.build )
+  gulp.src( options.JS.src )
+    .pipe(uglify())
+    .pipe(gulp.dest( options.JS.build ))
     .pipe(connect.reload());
 });
 
@@ -184,8 +190,8 @@ gulp.task('component', [ 'component-js', 'component-css' ]);
 gulp.task('watch', function () {
   gulp.watch( options.HTML.src , ['html']);
   gulp.watch( options.COFFEE.src , ['coffee']);
-  gulp.watch( options.JS.src , ["webpack:build-dev"]);
-  gulp.watch( options.JS.build , ["js"]);
+  // gulp.watch( options.JS.src , ["webpack:build-dev"]);
+  gulp.watch( options.JS.src , ["js"]);
   gulp.watch( [options.COMPONENT.manifest, options.COMPONENT.src] , ['component-js', 'component-css']);
   // gulp.watch(options.IMAGE_SOURCE, ['images']);
   gulp.watch( options.HTML.src , ['html']  );
